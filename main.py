@@ -9,7 +9,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.chains import ConversationalRetrievalChain
 
 parser = argparse.ArgumentParser(prog='RAG: LLM for doing conversation from data present in a file.')
-parser.add_argument("--path", "-p", default="./data_registry/data.pdf")
+parser.add_argument("--path", "-p", default="./data.pdf")
 args = parser.parse_args()
 FILE_PATH = args.path
 
