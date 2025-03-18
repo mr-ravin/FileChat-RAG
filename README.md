@@ -1,6 +1,6 @@
 # FileChat-RAG
 
-FileChat-RAG is a simple Retrieval-Augmented Generation (RAG) system that allows users to ask questions about the contents of various file formats. It extracts text from PDFs, JSON, text files, and code files, then enables interactive conversations using an LLM powered by Ollama.
+FileChat-RAG is a simple Retrieval-Augmented Generation (RAG) system that allows users to ask questions about the contents of various file formats. It extracts text from PDFs, JSON, text files(.txt, .doc, .docx, .md), and code files, then enables interactive conversations using an LLM powered by Ollama.
 
 ## Project Structure
 ```
@@ -17,7 +17,7 @@ FileChat-RAG is a simple Retrieval-Augmented Generation (RAG) system that allows
 ## Features
 - Supports text extraction from:
   - **PDFs** (.pdf)
-  - **Text files** (.txt, .md)
+  - **Text files** (.txt, .doc, .docx, .md)
   - **JSON files** (.json)
   - **Code files** (.py, .cpp, .java)
 - Uses FAISS for efficient text retrieval
