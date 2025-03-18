@@ -70,7 +70,6 @@ conversation_chain = ConversationalRetrievalChain.from_llm(llm, retriever=retrie
 
 def launch_tui():
     print("Active data repository: "+FILE_PATH)
-    query = ""
     chat_history = []  # Store previous interactions
     while True:
         query = input("Ask me anything! (Type /quit to exit) >>> ")
