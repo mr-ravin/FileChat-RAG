@@ -18,7 +18,6 @@ parser.add_argument("--path", "-p", default="./cd data.pdf")
 args = parser.parse_args()
 FILE_PATH = args.path
 
-
 def extract_text_from_txt(file_path):
     with open(file_path, "r", encoding="utf-8") as file:
         return file.read()
@@ -52,7 +51,6 @@ def extract_text(file_path):
         return extract_text_from_code(file_path)
     else:
         raise ValueError(f"Unsupported file type: {file_extension}")
-
 
 def get_file_retriever(filename):
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
