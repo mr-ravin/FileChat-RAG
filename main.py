@@ -1,7 +1,7 @@
 """
 This file contains FileChat-RAG program implemented using Python.
 FileChat-RAG is a simple Retrieval-Augmented Generation (RAG) system that allows users to ask questions about the contents of various file formats.
-It extracts text from PDFs, JSON, text files(.txt, .md), document files(.docx, .odt), and code files(.py, .cpp, .java, .c, .js, .ts, .html, .csharp, .sh), then enables interactive conversations using an LLM powered by Ollama.
+It extracts text from PDFs, JSON, text files(.txt, .md), document files(.docx, .odt), and code files(.py, .cpp, .java, .c, .js, .ts, .html, .cs, .sh), then enables interactive conversations using an LLM powered by Ollama.
 """
 import argparse
 import fitz
@@ -85,7 +85,7 @@ def extract_text(file_path):
         return extract_text_from_pdf(file_path)
     elif file_extension == ".json":
         return extract_text_from_json(file_path)
-    elif file_extension in [".py", ".cpp", ".java", ".c", ".js", ".ts", ".html", ".csharp", ".sh"]:
+    elif file_extension in [".py", ".cpp", ".java", ".c", ".js", ".ts", ".html", ".cs", ".sh"]:
         return extract_text_from_code(file_path)
     else:
         raise ValueError(f"Unsupported file type: {file_extension}")
