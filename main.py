@@ -1,10 +1,13 @@
 """
 This file contains FileChat-RAG program implemented using Python.
 FileChat-RAG is a simple Retrieval-Augmented Generation (RAG) system that allows users to ask questions about the contents of various file formats.
-It extracts text from PDFs, JSON, text files, and code files, then enables interactive conversations using an LLM powered by Ollama.
+It extracts text from PDFs, JSON, text files(.txt, .md), document files(.docx, .odt), and code files(.py, .cpp, .java, .c, .js, .ts, .html, .csharp, .sh), then enables interactive conversations using an LLM powered by Ollama.
 """
 import argparse
 import fitz
+from docx import Document
+from odf.opendocument import load
+from odf.text import P
 import os
 import json
 from langchain_ollama import OllamaLLM
@@ -19,22 +22,53 @@ args = parser.parse_args()
 FILE_PATH = args.path
 
 def extract_text_from_txt(file_path):
+    """Extract text from a Text (.txt, .md) file."""
     with open(file_path, "r", encoding="utf-8") as file:
         return file.read()
 
+def extract_text_from_docx(file_path):
+    """Extract text from a Word Document (.docx), including paragraphs, tables, headers, and footers."""
+    doc = Document(file_path)
+    text_content = []
+    # Extract paragraphs
+    for para in doc.paragraphs:
+        text_content.append(para.text)
+    # Extract tables
+    for table in doc.tables:
+        for row in table.rows:
+            text_content.append("\t".join(cell.text for cell in row.cells))
+    # Extract headers & footers
+    for section in doc.sections:
+        if section.header:
+            text_content.append("[Header] " + section.header.paragraphs[0].text)
+        if section.footer:
+            text_content.append("[Footer] " + section.footer.paragraphs[0].text)
+    return "\n".join(text_content)
+
+def extract_text_from_odt(file_path):
+    """Extract text from an OpenDocument Text (.odt) file."""
+    doc = load(file_path)
+    text_content = []
+    for element in doc.getElementsByType(P): 
+        if element.childNodes:
+            text_content.append("".join(node.data for node in element.childNodes if node.nodeType == node.TEXT_NODE))
+    return "\n".join(text_content)
+
 def extract_text_from_pdf(file_path):
+    """Extract text from a PDF (.pdf) file."""
     doc = fitz.open(file_path)
     text = "\n".join(page.get_text("text") for page in doc)
     return text
 
 def extract_text_from_json(file_path):
+    """Extract text from a JSON (.json) file."""
     with open(file_path, "r", encoding="utf-8") as file:
         data = json.load(file)
         return json.dumps(data, indent=2)  # Convert JSON to formatted text
 
 def extract_text_from_code(file_path):
-    """Extract text from code files (.py, .cpp, .java)"""
-    with open(file_path, "r", encoding="utf-8") as file:
+    """Extract text from code files (.py, .cpp, .java, .c, .js, .ts, .html, .csharp, .sh)"""
+    with open(file_path, "r", encoding="utf-8", errors="ignore") as file:
         return file.read()  # Treat as plain text
 
 def extract_text(file_path):
@@ -43,11 +77,15 @@ def extract_text(file_path):
     file_extension = file_extension.lower()
     if file_extension in [".txt", ".md"]:
         return extract_text_from_txt(file_path)
+    elif file_extension == ".docx":
+        return extract_text_from_docx(file_path)
+    elif file_extension == ".odt":
+        return extract_text_from_odt(file_path)
     elif file_extension == ".pdf":
         return extract_text_from_pdf(file_path)
     elif file_extension == ".json":
         return extract_text_from_json(file_path)
-    elif file_extension in [".py", ".cpp", ".java"]:
+    elif file_extension in [".py", ".cpp", ".java", ".c", ".js", ".ts", ".html", ".csharp", ".sh"]:
         return extract_text_from_code(file_path)
     else:
         raise ValueError(f"Unsupported file type: {file_extension}")

@@ -3,3 +3,5 @@ langchain_community==0.3.19
 langchain_ollama==0.2.3
 faiss-cpu==1.10.0
 pymupdf==1.25.4
+python-docx==1.1.2
+odfpy==1.4.1

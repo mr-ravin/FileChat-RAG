@@ -1,6 +1,6 @@
 # FileChat-RAG
 
-FileChat-RAG is a simple Retrieval-Augmented Generation (RAG) system that allows users to ask questions about the contents of various file formats. It extracts text from PDFs, JSON, text files(.txt, .doc, .docx, .md), and code files, then enables interactive conversations using an LLM powered by Ollama.
+FileChat-RAG is a simple Retrieval-Augmented Generation (RAG) system that allows users to ask questions about the contents of various file formats. It extracts text from PDFs, JSON, text files(.txt, .md), document files(.docx, .odt) and code files(.py, .cpp, .java, .c, .js, .ts, .html, .csharp, .sh), then enables interactive conversations using an LLM powered by Ollama.
 
 ## Project Structure
 ```
@@ -17,9 +17,10 @@ FileChat-RAG is a simple Retrieval-Augmented Generation (RAG) system that allows
 ## Features
 - Supports text extraction from:
   - **PDFs** (.pdf)
-  - **Text files** (.txt, .doc, .docx, .md)
+  - **Text files** (.txt, .md)
+  - **Document files** (.docx, .odt)
   - **JSON files** (.json)
-  - **Code files** (.py, .cpp, .java)
+  - **Code files** (.py, .cpp, .java, .c, .js, .ts, .html, .csharp, .sh)
 - Uses FAISS for efficient text retrieval
 - Enables conversational interaction with documents
 - Works with Ollama LLM (Gemma 3:1B by default)
@@ -37,7 +38,7 @@ FileChat-RAG is a simple Retrieval-Augmented Generation (RAG) system that allows
   *(For GPU acceleration, install `faiss-gpu` instead of `faiss-cpu`)*
 
 ## Usage
-### Installing and running Ollama Server
+### Installing and running Ollama Server (ollama version is 0.6.1)
 - Install Ollama Server:
 ```sh
 curl -fsSL https://ollama.com/install.sh | sh
