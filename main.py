@@ -1,3 +1,8 @@
+"""
+This file contains FileChat-RAG program implemented using Python. 
+FileChat-RAG is a simple Retrieval-Augmented Generation (RAG) system that allows users to ask questions about the contents of various file formats. 
+It extracts text from PDFs, JSON, text files, and code files, then enables interactive conversations using an LLM powered by Ollama.
+"""
 import argparse
 import fitz
 import os
@@ -9,7 +14,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.chains import ConversationalRetrievalChain
 
 parser = argparse.ArgumentParser(prog='RAG: LLM for doing conversation from data present in a file.')
-parser.add_argument("--path", "-p", default="./data.pdf")
+parser.add_argument("--path", "-p", default="./cd data.pdf")
 args = parser.parse_args()
 FILE_PATH = args.path
 
@@ -66,11 +71,14 @@ retriever = get_file_retriever(FILE_PATH)
 conversation_chain = ConversationalRetrievalChain.from_llm(llm, retriever=retriever)
 
 def launch_tui():
-    print("Data Repository used: "+FILE_PATH)
+    print("Active data repository: "+FILE_PATH)
     query = ""
     chat_history = []  # Store previous interactions
-    while query != "/quit":
+    while True:
         query = input("Ask me anything! (Type /quit to exit) >>> ")
+        if query == "/quit":
+            print("Bye.")
+            break
         response = conversation_chain.invoke({"question": query, "chat_history": chat_history})
         # Store conversation history
         chat_history.append((query, response["answer"]))
